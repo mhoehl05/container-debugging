@@ -2,6 +2,15 @@ data "azurerm_resource_group" "default" {
   name     = "rg-playground-test-weu"
 }
 
+resource "azurerm_resource_provider_registration" "aks" {
+  name = "Microsoft.ContainerService"
+
+  feature {
+    name       = "ManagedClustersClient"
+    registered = true
+  }
+}
+
 resource "azurerm_kubernetes_cluster" "demo" {
   name                = "aks-playground-test-weu"
   location            = data.azurerm_resource_group.default.location
