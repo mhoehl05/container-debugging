@@ -7,6 +7,7 @@ resource "azurerm_kubernetes_cluster" "demo" {
   location            = data.azurerm_resource_group.default.location
   resource_group_name = data.azurerm_resource_group.default.name
   dns_prefix          = "demo-aks"
+  sku_tier            = "Standard"
 
   default_node_pool {
     name       = "default"
