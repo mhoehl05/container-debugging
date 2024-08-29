@@ -4,8 +4,8 @@ data "azurerm_resource_group" "default" {
 
 resource "azurerm_kubernetes_cluster" "demo" {
   name                = "aks-playground-test-weu"
-  location            = azurerm_resource_group.default.location
-  resource_group_name = azurerm_resource_group.default.name
+  location            = data.azurerm_resource_group.default.location
+  resource_group_name = data.azurerm_resource_group.default.name
 
   default_node_pool {
     name       = "default"
