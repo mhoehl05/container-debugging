@@ -17,10 +17,6 @@ resource "azurerm_kubernetes_cluster" "demo" {
   identity {
     type = "SystemAssigned"
   }
-
-  depends_on = [
-    azurerm_resource_provider_registration.aks
-  ]
 }
 
 output "client_certificate" {
