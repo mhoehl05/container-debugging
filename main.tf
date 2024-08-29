@@ -1,5 +1,5 @@
 data "azurerm_resource_group" "default" {
-  name     = "rg-playground-test-weu"
+  name = "rg-playground-test-weu"
 }
 
 resource "azurerm_resource_provider_registration" "aks" {
@@ -15,7 +15,7 @@ resource "azurerm_kubernetes_cluster" "demo" {
   name                = "aks-playground-test-weu"
   location            = data.azurerm_resource_group.default.location
   resource_group_name = data.azurerm_resource_group.default.name
-  dns_prefix = "demo-aks"
+  dns_prefix          = "demo-aks"
 
   default_node_pool {
     name       = "default"
