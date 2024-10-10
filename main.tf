@@ -27,6 +27,18 @@ output "client_certificate" {
 
 output "kube_config" {
   value = azurerm_kubernetes_cluster.demo.kube_config_raw
-
   sensitive = true
+}
+
+resource "helm_release" "demo_app" {
+  name             = "demo-app"
+  chart            = "./helmchart/demo-app"
+  namespace        = "demo-app"
+  create_namespace = true
+  wait             = true
+
+  depends_on = [
+    azurerm_kubernetes_cluster.demo,
+    helm_release.demo_app,
+  ]
 }
