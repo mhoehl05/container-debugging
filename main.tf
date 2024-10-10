@@ -9,15 +9,16 @@ resource "azurerm_kubernetes_cluster" "demo" {
   dns_prefix          = "demo-aks"
   sku_tier            = "Standard"
 
-  default_node_pool {
-    name       = "default"
-    node_count = 2
-    vm_size    = "Standard_B2ms"
-  }
-
   identity {
     type = "SystemAssigned"
   }
+}
+
+resource "azurerm_kubernetes_cluster_node_pool" "default" {
+  name                  = "default"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.demo.id
+  vm_size               = "Standard_B2ms"
+  node_count            = 2
 }
 
 output "client_certificate" {
@@ -26,7 +27,7 @@ output "client_certificate" {
 }
 
 output "kube_config" {
-  value = azurerm_kubernetes_cluster.demo.kube_config_raw
+  value     = azurerm_kubernetes_cluster.demo.kube_config_raw
   sensitive = true
 }
 
@@ -38,7 +39,6 @@ resource "helm_release" "demo_app" {
   wait             = true
 
   depends_on = [
-    azurerm_kubernetes_cluster.demo,
-    helm_release.demo_app,
+    azurerm_kubernetes_cluster_node_pool.default,
   ]
 }
